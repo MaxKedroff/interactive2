@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="ru"><head>
+<meta charset="utf-8"><title>Кружка → Прибор</title>
+<style>
+ body{margin:0;font-family:Arial,sans-serif;background:#FEF4EB}
+ #wrap{max-width:860px;margin:20px auto;padding:16px;background:#fff;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+ #utensils{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+ .card{display:flex;flex-direction:column;align-items:center;justify-content:center;
+       padding:14px 10px;border:1px solid #D6C7B4;border-radius:10px;background:#FEF4EB;
+       cursor:pointer;transition:.25s}
+ .card:hover{transform:translateY(-2px)}
+</style></head><body><div id="wrap">
+    <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px">
+            <span>Подбери к кружке правильные предметы сервировки</span>
+            <span id="cnt">1/7 вопросов</span>
+        </div>
+        <div style="width:100%;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden">
+            <div id="bar" style="height:4px;width:0%;background:#8DC63F;transition:width .4s"></div>
+        </div>
+    </div>
+
+    <div style="display:flex;gap:32px;flex-wrap:wrap;justify-content:center">
+        <div id="mug" style="flex:1 1 220px;text-align:center">
+            <img id="mug-img" src="" style="width:60px;margin-bottom:12px">
+            <div id="mug-name" style="font-weight:700;font-size:18px"></div>
+        </div>
+        <div id="utensils" style="flex:1 1 300px"></div>
+    </div>
+</div>
+
+<script>
+const mugs=[
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/чайная.png',
+  name:'Чайная кружка<br>200 мл', utensil:'чайная ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/image%2042.png',
+  name:'Маленькая кружка<br>360 мл', utensil:'маленькая ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/средняя.png',
+  name:'Средняя кружка<br>480 мл', utensil:'коктейльная ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/image%2040.png',
+  name:'Большая кружка<br>600 мл', utensil:'коктейльная ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/тёплый%20со%20сливками.png',
+  name:'Тёплый напиток со сливками', utensil:'коктейльная ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/холодный%20напиток.png',
+  name:'Холодный напиток', utensil:'трубочка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/холодный%20со%20сливками.png',
+  name:'Холодный напиток со сливками', utensil:'трубочка + коктейльная ложка'}
+];
+const utensils=[
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/приборы/чайная%20(1).png',      name:'чайная ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/приборы/items.png',             name:'ложка эспрессо'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/приборы/чайная%20(1).png',      name:'маленькая ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/приборы/e339f9c64956bb8eb42ce0df17b0241d3343c911.png', name:'трубочка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/приборы/Group%2061%20(1).png', name:'коктейльная ложка'},
+ {img:'https://storage.yandexcloud.net/audio-test-sc/interactive%2010/приборы/Frame%20163361.png',   name:'трубочка + коктейльная ложка'}
+];
+
+const mugImg=document.getElementById('mug-img');
+const mugName=document.getElementById('mug-name');
+const cnt    =document.getElementById('cnt');
+const bar    =document.getElementById('bar');
+const utDiv  =document.getElementById('utensils');
+
+utensils.forEach(u=>{
+  const d=document.createElement('div');
+  d.className='card'; d.dataset.n=u.name;
+  d.innerHTML=`<img src="${u.img}" style="width:60px;margin-bottom:8px"><div style="font-size:13px;text-align:center">${u.name}</div>`;
+  utDiv.appendChild(d);
+});
+
+let i=0,total=mugs.length; show(i);
+utDiv.onclick=e=>{
+  const card=e.target.closest('.card'); if(!card)return;
+  const ok=card.dataset.n===mugs[i].utensil;
+  card.style.background=ok?'#E1F1E7':'#F4E5E2';
+  setTimeout(()=>card.style.background='#FEF4EB',600);
+  if(ok){i++; if(i<total)show(i); else{bar.style.width='100%';alert('Супер! Вы всё подобрали.');i=0;show(i);}}
+};
+function show(idx){
+  mugImg.src=mugs[idx].img; mugName.innerHTML=mugs[idx].name;
+  cnt.textContent=`${idx+1}/${total} вопросов`; bar.style.width=`${idx/total*100}%`;
+}
+</script></body></html>
