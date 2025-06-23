@@ -80,7 +80,7 @@ const utDiv =document.getElementById('utensils');
 utensils.forEach(u=>{
   const d=document.createElement('div');
   d.className='card'; d.dataset.n=u.name;
-  d.innerHTML=`<img src="${u.img}" style="margin-bottom:8px"><div style="font-size:13px;text-align:center">${u.name}</div>`;
+  d.innerHTML=`<img src="${u.img}" style="margin-bottom:8px; width: 100px;"><div style="font-size:13px;text-align:center">${u.name}</div>`;
   utDiv.appendChild(d);
 });
 
